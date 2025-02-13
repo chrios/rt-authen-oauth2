@@ -117,6 +117,7 @@ sub RequestAuthorization {
     );
 
     my $ip = RT::Interface::Web::RequestENV('REMOTE_ADDR') || 'UNKNOWN';
+    RT::Logger->info($auth);
     RT::Logger->info("OAuth 2 redirect from RequestAuthorization() from $ip");
     RT::Interface::Web::Redirect($auth->authorize);
 }
