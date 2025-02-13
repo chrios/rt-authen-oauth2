@@ -8,6 +8,7 @@ use Net::OAuth2::Profile::WebServer;
 
 use RT::Authen::OAuth2::Unimplemented;
 use RT::Authen::OAuth2::Google;
+use RT::Authen::OAuth2::Entra;
 use Data::Dumper;
 
 use URI::Escape;

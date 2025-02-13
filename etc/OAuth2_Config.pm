@@ -67,6 +67,18 @@ Set($OAuthIDP, 'google');
 
 =over 4
 
+=item C<$OAuthEntraTenantID>
+
+Set this to your Entra ID Tenant ID
+
+    Set($OAuthEntraTenantID, 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxxxxxx');
+
+=back
+
+=cut
+
+=over 4
+
 =item C<%MetadataMap>
 
 B<NOTE>: This is a sub-key of C<$OAuthIDPs>. Each IDP has a MetadataMap.
@@ -94,7 +106,7 @@ have its own set of secrets, so you must specify the endpoint name as
 found in the C<%OAuthIDPs> internal config option.
 
     Set(%OAuthIDPSecrets,
-        'google' => {
+        'entra' => {
             client_id => '...',
             client_secret => '...',
         },
@@ -169,6 +181,27 @@ Set(%OAuthIDPs,
         'client_id' => '',
         'client_secret' => '',
         'state' => '',
+    },
+    'entra' => {
+        'MetadataHandler' => 'RT::Authen::OAuth2::Entra',
+        'MetadataMap' => {
+            EmailAddress => 'email',
+            RealName => 'name',
+            NickName => 'not-provided',
+            Lang => 'not-provided',
+            Organization => 'not-provided'
+        },
+        'LoadColumn' => 'EmailAdress',
+        'LoginPageButton' => '/static/images/btn_entra_signin_dark_normal_web.png',
+        'authorize_path' => '/oauth2/v2.0/authorize',
+        'site' => 'https://login.microsoftonline.com/' . RT->Config->Get('OAuthEntraTenantID'),
+        'logout_path' => '/oauth2/v2.0/logout',
+        'name' => 'Entra Login',
+        'protected_resource_url' => 'https://graph.microsoft.com/oidc/userinfo',
+        'scope' => 'openid profile email',
+        'access_token_path' => '/oauth2/v2.0/token',
+        'client_id' => '',
+        'client_secret' => ''
     },
     'auth0' => {
         # You must Set($Auth0Host, "something.auth0.com");
